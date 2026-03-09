@@ -7,7 +7,14 @@
     height: 150px;
     border: 2px dashed transparent;
     box-sizing: border-box;
-    background:red;
+}
+
+#moveable img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    pointer-events: none;
 }
 
 #moveable.active {
@@ -17,37 +24,38 @@
 
 .resize-handle {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background: white;
-    border: 2px solid #1a73e8;
-    border-radius: 50%;
+    background: #1a73e8;
     z-index: 11;
     display: none;
+    opacity: 0.6;
 }
 
 #moveable.active .resize-handle { display: block; }
 
-.resize-handle.n { 
-    top: -5px;
-    left: calc(50% - 5px);
+.resize-handle.n, .resize-handle.s {
+    height: 3px;
+    width: calc(100% - 20px);
+    left: 10px;
     cursor: n-resize;
 }
 
-.resize-handle.s {
-    bottom: -5px;
-    left: calc(50% - 5px);
-    cursor: s-resize;
-}
-
-.resize-handle.e {
-    right: -5px;
-    top: calc(50% - 5px);
+.resize-handle.e, .resize-handle.w {
+    width: 3px;
+    height: calc(100% - 20px);
+    top: 10px;
     cursor: e-resize;
 }
 
+.resize-handle.n { top: 0; }
+
+.resize-handle.s {
+    bottom: 0;
+    cursor: s-resize;
+}
+
+.resize-handle.e { right: 0; }
+
 .resize-handle.w {
-    left: -5px;
-    top: calc(50% - 5px);
+    left: 0;
     cursor: w-resize;
 }

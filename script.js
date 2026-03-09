@@ -1,10 +1,19 @@
 dragElement(document.getElementById("moveable"));
 
+const elmnt = document.getElementById("moveable");
+
+document.addEventListener("mousedown", (e) => {
+    if (!elmnt.contains(e.target)) {
+        elmnt.classList.remove("active");
+    }
+});
+
 function dragElement(elmnt) {
     var pos3 = 0, pos4 = 0;
     elmnt.onmousedown = dragMouseDown;
 
     function dragMouseDown(e) {
+        elmnt.classList.add("active");
         e.preventDefault();
         const rect = elmnt.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -62,50 +71,3 @@ function dragElement(elmnt) {
         document.onmousemove = null;
     }
 }
-
-const elmnt = document.getElementById("moveable");
-
-document.addEventListener("mousedown", (e) => {
-    if (elmnt.contains(e.target)) {
-        elmnt.classList.add("active");
-    } else {
-        elmnt.classList.remove("active");
-    }
-});
-
-document.querySelectorAll(".resize-handle").forEach(handle => {
-    handle.addEventListener("mousedown", (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-
-        const dir = handle.dataset.dir;
-        const startX = e.clientX, startY = e.clientY;
-        const startW = elmnt.offsetWidth, startH = elmnt.offsetHeight;
-        const startLeft = elmnt.offsetLeft, startTop = elmnt.offsetTop;
-
-        const onMove = (e) => {
-            const dx = e.clientX - startX;
-            const dy = e.clientY - startY;
-
-            if (dir.includes("e")) elmnt.style.width = Math.max(80, startW + dx) + "px";
-            if (dir.includes("s")) elmnt.style.height = Math.max(40, startH + dy) + "px";
-            if (dir.includes("w")) {
-                elmnt.style.width = Math.max(80, startW - dx) + "px";
-                elmnt.style.left = (startLeft + dx) + "px";
-            }
-
-            if (dir.includes("n")) {
-                elmnt.style.height = Math.max(40, startH - dy) + "px";
-                elmnt.style.top = (startTop + dy) + "px";
-            }
-        };
-
-        const onUp = () => {
-            document.removeEventListener("mousemove", onMove);
-            document.removeEventListener("mouseup", onUp);
-        };
-
-        document.addEventListener("mousemove", onMove);
-        document.addEventListener("mouseup", onUp);
-    });
-});
