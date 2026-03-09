@@ -1,15 +1,10 @@
 dragElement(document.getElementById("moveable"));
 
 function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (document.getElementById(elmnt.id + "header")) {
-        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-    } else {
-        elmnt.onmousedown = dragMouseDown;
-    }
+    var pos3 = 0, pos4 = 0;
+    elmnt.onmousedown = dragMouseDown;
 
     function dragMouseDown(e) {
-        e = e || window.event;
         e.preventDefault();
         const rect = elmnt.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -21,7 +16,6 @@ function dragElement(elmnt) {
         if (y < threshold) dir += 'n';
         if (y > rect.height - threshold) dir += 's';
         if (dir) {
-            // resize
             const startX = e.clientX, startY = e.clientY;
             const startW = elmnt.offsetWidth, startH = elmnt.offsetHeight;
             const startLeft = elmnt.offsetLeft, startTop = elmnt.offsetTop;
@@ -46,7 +40,6 @@ function dragElement(elmnt) {
             document.addEventListener("mousemove", onMove);
             document.addEventListener("mouseup", onUp);
         } else {
-            // drag
             pos3 = e.clientX;
             pos4 = e.clientY;
             var initialTop = elmnt.offsetTop;
@@ -59,7 +52,6 @@ function dragElement(elmnt) {
     }
 
     function elementDrag(e, initialTop, initialLeft) {
-        e = e || window.event;
         e.preventDefault();
         elmnt.style.top = (initialTop + (e.clientY - pos4)) + "px";
         elmnt.style.left = (initialLeft + (e.clientX - pos3)) + "px";
