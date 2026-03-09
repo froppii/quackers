@@ -1,11 +1,52 @@
 #moveable {
     position:absolute;
     z-index: 9;
+    min-width: 100px;
+    min-height: 60px;
+    width: 200px;
+    height: 150px;
+    border: 2px dashed transparent;
+    box-sizing: border-box;
 }
 
-#moveableheader {
-    padding: 10px;
-    cursor: move;
-    z-index: 10;
-    background-color: rgb(230, 0, 0);
+#moveable.active {
+    border: 2px dashed #1a73e8;
+    outline: none;
+}
+
+.resize-handle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border: 2px solid #1a73e8;
+    border-radius: 50%;
+    z-index: 11;
+    display: none;
+}
+
+#moveable.active .resize-handle { display: block; }
+
+.resize-handle.n { 
+    top: -5px;
+    left: calc(50% - 5px);
+    cursor: n-resize;
+}
+
+.resize-handle.s {
+    bottom: -5px;
+    left: calc(50% - 5px);
+    cursor: s-resize;
+}
+
+.resize-handle.e {
+    right: -5px;
+    top: calc(50% - 5px);
+    cursor: e-resize;
+}
+
+.resize-handle.w {
+    left: -5px;
+    top: calc(50% - 5px);
+    cursor: w-resize;
 }
