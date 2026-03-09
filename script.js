@@ -9,6 +9,13 @@ document.addEventListener("mousedown", (e) => {
 });
 
 function dragElement(elmnt) {
+    var currentX = elmnt.offsetLeft;
+    var currentY = elmnt.offsetTop;
+    var currentScaleX = 1;
+    var currentScaleY = 1;
+    elmnt.style.left = '0px';
+    elmnt.style.top = '0px';
+    elmnt.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScaleX}, ${currentScaleY})`;
     var pos3 = 0, pos4 = 0;
     elmnt.onmousedown = dragMouseDown;
 
@@ -27,20 +34,21 @@ function dragElement(elmnt) {
         if (dir) {
             const startX = e.clientX, startY = e.clientY;
             const startW = elmnt.offsetWidth, startH = elmnt.offsetHeight;
-            const startLeft = elmnt.offsetLeft, startTop = elmnt.offsetTop;
+            const startLeft = currentX, startTop = currentY;
             const onMove = (e) => {
                 const dx = e.clientX - startX;
                 const dy = e.clientY - startY;
-                if (dir.includes("e")) elmnt.style.width = Math.max(80, startW + dx) + "px";
-                if (dir.includes("s")) elmnt.style.height = Math.max(40, startH + dy) + "px";
+                if (dir.includes("e")) currentScaleX = Math.max(0.4, (startW + dx) / startW);
+                if (dir.includes("s")) currentScaleY = Math.max(0.4, (startH + dy) / startH);
                 if (dir.includes("w")) {
-                    elmnt.style.width = Math.max(80, startW - dx) + "px";
-                    elmnt.style.left = (startLeft + dx) + "px";
+                    currentScaleX = Math.max(0.4, (startW - dx) / startW);
+                    currentX = startLeft + dx;
                 }
                 if (dir.includes("n")) {
-                    elmnt.style.height = Math.max(40, startH - dy) + "px";
-                    elmnt.style.top = (startTop + dy) + "px";
+                    currentScaleY = Math.max(0.4, (startH - dy) / startH);
+                    currentY = startTop + dy;
                 }
+                elmnt.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScaleX}, ${currentScaleY})`;
             };
             const onUp = () => {
                 document.removeEventListener("mousemove", onMove);
@@ -51,23 +59,22 @@ function dragElement(elmnt) {
         } else {
             pos3 = e.clientX;
             pos4 = e.clientY;
-            var initialTop = elmnt.offsetTop;
-            var initialLeft = elmnt.offsetLeft;
-            document.onmouseup = closeDragElement;
-            document.onmousemove = function(e) {
-                elementDrag(e, initialTop, initialLeft);
+            const onMove = (e) => {
+                e.preventDefault();
+                const dx = e.clientX - pos3;
+                const dy = e.clientY - pos4;
+                currentX += dx;
+                currentY += dy;
+                elmnt.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScaleX}, ${currentScaleY})`;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
             };
+            const onUp = () => {
+                document.removeEventListener("mousemove", onMove);
+                document.removeEventListener("mouseup", onUp);
+            };
+            document.addEventListener("mousemove", onMove);
+            document.addEventListener("mouseup", onUp);
         }
-    }
-
-    function elementDrag(e, initialTop, initialLeft) {
-        e.preventDefault();
-        elmnt.style.top = (initialTop + (e.clientY - pos4)) + "px";
-        elmnt.style.left = (initialLeft + (e.clientX - pos3)) + "px";
-    }
-
-    function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
     }
 }

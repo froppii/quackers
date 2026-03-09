@@ -1,11 +1,8 @@
 #moveable {
-    position:absolute;
+    position: absolute;
     z-index: 9;
-    min-width: 100px;
-    min-height: 60px;
     width: 200px;
     height: 150px;
-    border: 2px dashed transparent;
     box-sizing: border-box;
 }
 
@@ -18,44 +15,57 @@
 }
 
 #moveable.active {
-    border: 2px dashed #1a73e8;
-    outline: none;
+    outline: 1px solid #1a73e8;
 }
 
 .resize-handle {
     position: absolute;
-    background: #1a73e8;
     z-index: 11;
-    display: none;
-    opacity: 0.6;
+    cursor: pointer;
+    box-sizing: border-box;
 }
 
+.resize-handle { display: none; }
 #moveable.active .resize-handle { display: block; }
 
 .resize-handle.n, .resize-handle.s {
-    height: 3px;
-    width: calc(100% - 20px);
-    left: 10px;
-    cursor: n-resize;
+    height: 8px;
+    width: 100%;
+    left: 0;
+    cursor: ns-resize;
 }
 
 .resize-handle.e, .resize-handle.w {
-    width: 3px;
-    height: calc(100% - 20px);
-    top: 10px;
-    cursor: e-resize;
+    width: 8px;
+    height: 100%;
+    top: 0;
+    cursor: ew-resize;
 }
 
-.resize-handle.n { top: 0; }
+.resize-handle.n { top: -4px; }
 
-.resize-handle.s {
-    bottom: 0;
-    cursor: s-resize;
+.resize-handle.s { bottom: -4px; }
+
+.resize-handle.e { right: -4px; }
+
+.resize-handle.w { left: -4px; }
+
+.resize-handle::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border: 1.5px solid #1a73e8;
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
 }
 
-.resize-handle.e { right: 0; }
+.resize-handle.n::after, .resize-handle.s::after {
+    left: calc(50% - 4px);
+    top: calc(50% - 4px);
+}
 
-.resize-handle.w {
-    left: 0;
-    cursor: w-resize;
+.resize-handle.e::after, .resize-handle.w::after {
+    top: calc(50% - 4px);
+    left: calc(50% - 4px);
 }
