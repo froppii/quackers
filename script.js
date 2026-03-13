@@ -1,25 +1,36 @@
-dragElement(document.getElementById("moveable"));
+document.querySelectorAll(".moveable").forEach(el => dragElement(el));
 
-const elmnt = document.getElementById("moveable");
+document.getElementById("spawn-btn").addEventListener("click", () => {
+    const seal = document.createElement("div");
+    seal.className = "moveable";
+    seal.innerHTML = `
+        <img src="ceiling.png">
+        <div class="resize-handle n" data-dir="n"></div>
+        <div class="resize-handle s" data-dir="s"></div>
+        <div class="resize-handle e" data-dir="e"></div>
+        <div class="resize-handle w" data-dir="w"></div>
+    `;
+    document.body.appendChild(seal);
+    dragElement(seal);
+})
 
 document.addEventListener("mousedown", (e) => {
-    if (!elmnt.contains(e.target)) {
-        elmnt.classList.remove("active");
-    }
+    document.querySelectorAll(".moveable").forEach(el => {
+        if (!el.contains(e.target)) el.classList.remove("active");
+    });
 });
 
 function dragElement(elmnt) {
-    var currentX = elmnt.offsetLeft;
-    var currentY = elmnt.offsetTop;
-    var currentScaleX = 1;
-    var currentScaleY = 1;
+    var currentX = 0;
+    var currentY = 0;
     elmnt.style.left = '0px';
     elmnt.style.top = '0px';
-    elmnt.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScaleX}, ${currentScaleY})`;
+    elmnt.style.transform = `translate(0px, 0px)`;
     var pos3 = 0, pos4 = 0;
     elmnt.onmousedown = dragMouseDown;
 
     function dragMouseDown(e) {
+        document.querySelectorAll(".moveable").forEach(el => el.classList.remove("active"));
         elmnt.classList.add("active");
         e.preventDefault();
 

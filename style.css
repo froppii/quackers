@@ -1,4 +1,23 @@
-#moveable {
+#spawn-btn {
+    padding: 0;
+    border: 1px solid gray;
+    cursor: pointer;
+    background: none;
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+#spawn-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.moveable {
     position: absolute;
     z-index: 9;
     width: 200px;
@@ -6,7 +25,7 @@
     box-sizing: border-box;
 }
 
-#moveable img {
+.moveable img {
     width: 100%;
     height: 100%;
     display: block;
@@ -14,7 +33,7 @@
     pointer-events: none;
 }
 
-#moveable.active {
+.moveable.active {
     outline: 1px solid #1a73e8;
 }
 
@@ -26,7 +45,7 @@
 }
 
 .resize-handle { display: none; }
-#moveable.active .resize-handle { display: block; }
+.moveable.active .resize-handle { display: block; }
 
 .resize-handle.hover {
     background: rgba(26, 115, 232, 0.2);
