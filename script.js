@@ -27,6 +27,34 @@ function dragElement(elmnt) {
     elmnt.style.top = '0px';
     elmnt.style.transform = `translate(0px, 0px)`;
     var pos3 = 0, pos4 = 0;
+
+    // audio stuff
+    const audioCtx = new AudioContext();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    oscillator.type = "sine";
+    gainNode.gain.value = 0;
+    oscillator.start();
+
+    function updateAudio() {
+        const w = elmnt.offsetWidth;
+        const h = elmnt.offsetHeight;
+        const baseW = 200, baseH = 150;
+        const pitch = 220 * (w / baseW) * (baseH / h);
+        oscillator.frequency.setTargetAtTime(pitch, audioCtx.currentTime, 0.05);
+    }
+
+    function startAudio() {
+        gainNode.gain.setTargetAtTime(0.3, audioCtx.currentTime, 0.05);
+        updateAudio();
+    }
+
+    function stopAudio() {
+        gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+    }
+
     elmnt.onmousedown = dragMouseDown;
 
     function dragMouseDown(e) {
@@ -37,6 +65,7 @@ function dragElement(elmnt) {
         const handle = e.target.closest(".resize-handle");
 
         if (handle) {
+            startAudio();
             const dir = handle.dataset.dir;
             const startX = e.clientX, startY = e.clientY;
             const startW = elmnt.offsetWidth, startH = elmnt.offsetHeight;
@@ -57,8 +86,10 @@ function dragElement(elmnt) {
                     elmnt.style.transform = `translate(${currentX}px, ${currentY}px)`
                 }
                 elmnt.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScaleX}, ${currentScaleY})`;
+                updateAudio();
             };
             const onUp = () => {
+                stopAudio();
                 document.removeEventListener("mousemove", onMove);
                 document.removeEventListener("mouseup", onUp);
             };
