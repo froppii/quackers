@@ -33,6 +33,65 @@ function buildRuler() {
     }
 }
 
+
+function addTrack() {
+    trackCount++;
+    const container = document.getElementByIf('tracls-container');
+    const track = document.createElement('div');
+    track.className = 'track';
+    track.dataset.track = trackCount;
+
+    const label = document.createElement('div');
+    label.className = 'track-label';
+
+    const num = document.createElement('span');
+    num.className = 'track-number';
+    num.textContent = trackCount;
+
+    const name = document.createElement('input');
+    name.className = 'track-name';
+    name.value = `track ${trackCount}`;
+    name.type = 'text';
+    name.addEventListener('mousedown', e => e.stopPropagation());
+
+    const del = document.createElement('button');
+    del.className = 'track-delete';
+    del.textContent = 'x';
+    del.title = 'delete track';
+    del.addEventListener('click', () => track.remove());
+
+    label.appendChild(num);
+    label.appendChild(name);
+    label.appendChild(del);
+    track.appendChild(label);
+
+    const lane = document.createElement('div');
+    lane.className = 'track-lane';
+    lane.dataset.track = trackCount;
+    track.appendChild(lane);
+
+    lane.addEventListener('dragover', e => {
+        e.preventDefault();
+        lane.classList.add('drag-over');
+    });
+    lane.addEventListener('dragleave', () => lane.classList.remove('drag-over'));
+    lane.addEventListener('drop', e => {
+        e.preventDefault();
+        lane.classList.remove('drag-over');
+    });
+    lane.addEventListener('dragleave', () => lane.classList.remove('drag-over'));
+    lane.addEventListener('drop', e => {
+        e.preventDefault();
+        lane.classList.remove('drag-over');
+        const rect = lane.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        spawnClip(lane, x);
+    });
+
+    container.appendChild(track);
+    return track;
+}
+
 document.querySelectorAll(".moveable").forEach(el => dragElement(el));
 
 document.getElementById("spawn-btn").addEventListener("click", () => {
