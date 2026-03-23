@@ -1,3 +1,38 @@
+const CELL = 48;
+const CELLS = 32;
+const TRACK_H = 80;
+
+let bpm = 120;
+let isPlaying = false;
+let playStartTime = 0;
+let playStartBeat = 0;
+let currentBeat = 0;
+let animFrame = null;
+let trackCount = 0;
+
+const audioCtx = new AudioContext();
+
+const clips = {};
+let clipIdCounter =0;
+
+function buildRuler() {
+    const ruler = document.getElementById('ruler');
+    ruler.innerHTML = '';
+    for (let i = 0; i <= CELLS; i++) {
+        const tick = document.createElement('div');
+        tick.className = 'ruler-tick ' + (i % 4 === 0 ? 'bar' : 'beat');
+        tick.style.left = (i * CELL) + 'px';
+        ruler.appendChild(tick);
+        if (i % 4 === 0) {
+            const label = document.createElement('div');
+            label.className = 'ruler-mark';
+            label.style.left = (i * CELL + 3) + 'px';
+            label.textContent = (i / 4 + 1);
+            ruler.appendChild(label);
+        } 
+    }
+}
+
 document.querySelectorAll(".moveable").forEach(el => dragElement(el));
 
 document.getElementById("spawn-btn").addEventListener("click", () => {

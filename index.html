@@ -6,16 +6,34 @@
 
     </head>
     <body>
-        <h1>more than just quacks</h1>
-        <button id="spawn-btn">
-            <img src="ceiling.png">
-        </button>
-        <div class="moveable">
-            <img src="ceiling.png">
-            <div class="resize-handle n" data-dir="n"></div>
-            <div class="resize-handle s" data-dir="s"></div>
-            <div class="resize-handle e" data-dir="e"></div>
-            <div class="resize-handle w" data-dir="w"></div>
+        <header>
+            <div id="title">more than just quacks</div>
+            <button id="spawn-btn" draggable="true">
+                <img src="ceiling.png" alt="spawn ceiling">
+            </button>
+        </header>
+
+        <div id="app">
+            <div id="timeline">
+                <div id="ruler"></div>
+                <div id="tracks-container">
+
+                </div>
+                <div id="playhead"></div>
+                <button id="add-track">+ ADD TRACK</button>
+            </div>
+        </div>
+
+        <div>
+            <button id="stop" class="bar-btn">■</button>
+            <button id="play" class="bar-btn play">▶</button>
+            <div id="bpm-control">
+                <button class="bpm-btn" id="bpm-down">-</button>
+                <span id="bpm-value">120</span>
+                <span id="bpm-label">BPM</span>
+                <button class="bpm-btn" id="bpm-up">+</button>
+            </div>
+            <div id="playhead-display">00:00</div>
         </div>
         <script src="script.js"></script>
     </body>
