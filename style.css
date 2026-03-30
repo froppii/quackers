@@ -77,6 +77,154 @@ header {
     display: block;
 }
 
+#bar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    z-index: 999;
+}
+
+.bar-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bar-btn:hover { background: var(--surface); }
+.bar-btn.play { color: var(--accent); }
+.bar-btn.play:hover { background: var(--accent); color: #fff;}
+.bar-btn.active { background: var(--accent2); color: #fff;}
+
+#bpm-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 10px;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+}
+
+.bpm-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 2px;
+    line-height: 1;
+    font-family: 'Space Mono', monospace;
+}
+
+.bpm-btn:hover { color: var(--accent); }
+
+#bpm-display {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    min-width: 28px;
+    text-align: center;
+}
+
+.bpm-label {
+    font-size: 9px;
+    color: var(--text-dim);
+}
+
+#playhead-display {
+    font-size: 11px;
+    color: var(--text-dim);
+    min-width: 36px;
+    font-family: 'Space Mono', monospace;
+}
+
+#app {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+#timeline-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+#timeline-header {
+    display: flex;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border);
+}
+
+#track-label-header {
+    width: 140px;
+    flex-shrink: 0;
+    height: var(--ruler-h);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+}
+
+#ruler {
+    flex: 1;
+    height: var(--ruler-h);
+    background: var(--bg);
+    overflow: hidden;
+    position: relative;
+}
+
+.ruler-mark {
+    position: absolute;
+    bottom: 4px;
+    font-size: 9px;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+}
+
+.ruler-tick {
+    position: absolute;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+}
+
+.ruler-tick.beat { 
+    background: #ddd;
+    height: 8px;
+}
+
+.ruler.tick.bar {
+    background: #bbb;
+    height: 14px;
+}
+
+#tracks-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+    position: relative;
+}
+
 .moveable {
     position: absolute;
     z-index: 9;

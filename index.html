@@ -1,9 +1,8 @@
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>more than just quacks</title>
         <link rel="stylesheet" href="style.css">
-
-
     </head>
     <body>
         <header>
@@ -14,8 +13,11 @@
         </header>
 
         <div id="app">
-            <div id="timeline">
-                <div id="ruler"></div>
+            <div id="timeline-wrap">
+                <div id="timeline-header">
+                    <div id="track-label-header">TRACKS</div>
+                    <div id="ruler"></div>
+                </div>
                 <div id="tracks-container">
 
                 </div>
@@ -24,7 +26,7 @@
             </div>
         </div>
 
-        <div>
+        <div id="bar">
             <button id="stop" class="bar-btn">■</button>
             <button id="play" class="bar-btn play">▶</button>
             <div id="bpm-control">
