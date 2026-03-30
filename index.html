@@ -12,17 +12,29 @@
             </button>
         </header>
 
-        <div id="app">
-            <div id="timeline-wrap">
-                <div id="timeline-header">
-                    <div id="track-label-header">TRACKS</div>
-                    <div id="ruler"></div>
-                </div>
-                <div id="tracks-container">
+        <div id="layout">
+            <div id="panel">
+                <div class="panel-label">creatures</div>
 
+                <div class="creature-card" data-type="ceiling" draggable="true">
+                    <div class="card-img-wrap">
+                        <img src="ceiling.png" alt="ceiling">
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">ceiling</div>
+                        <div class="card-desc">barks in key</div>
+                    </div>
                 </div>
-                <div id="playhead"></div>
-                <button id="add-track">+ ADD TRACK</button>
+
+                <div class="creature-card" data-type="chicken" draggable="true">
+                    <div class="card-img-wrap">
+                        <img src="chicken.png" alt="chicken">
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">chicken</div>
+                        <div class="card-desc">squeaks melodically</div>
+                    </div>
+                </div>
             </div>
         </div>
 
