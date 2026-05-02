@@ -56,20 +56,35 @@ h1 {
 .piano {
     position: relative;
     display: flex;
-    padding: 20px;
+    padding: 10px;
     background: #fff;
-    border-radius: 25px;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 .white {
-    width: 60px;
-    height: 200px;
+    width: 50px;
+    height: 220px;
     background: white;
-    border-radius: 12px;
-    margin: 0 4px;
-    position: relative;
+    border: 3px solid black;
+    border-radius: 0 0 6px 6px;
     z-index: 1;
+    margin-left: -3px;
+    position: relative;
     transition: all 0.1s ease;
+}
+
+.white:first-child {
+    margin-left: 0;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.white:last-of-type {
+    margin-left: 0;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    z-index: 3;
 }
 
 .white:active, .white.active {
@@ -79,17 +94,17 @@ h1 {
 
 .black {
     position: absolute;
-    width: 40px;
-    height: 120px;
+    width: 32px;
+    height: 130px;
     background: black;
-    border-radius: 10px;
     z-index: 2;
-    top: 20px;
+    top: 10px;
     transition: all 0.1s ease;
+    left: calc((var(--i) + 1) * 53px + 18px);
+    transform: translateX(-75%);
 }
 
 .black:active, .black.active {
-    transform: translateY(3px);
     background: #666;
 }
 

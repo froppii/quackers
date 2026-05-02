@@ -10,7 +10,7 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
 const notes = [261.63, 293.66, 329.63, 392.00, 440.00];
-const keys = document.querySelectorAll('#keyboard div');
+const keys = document.querySelectorAll('.key');
 
 for (let r = 0; r < rows; r++) {
     cells[r] = [];
@@ -46,8 +46,17 @@ function playNote(freq) {
 
 keys.forEach(key => {
     key.addEventListener('mousedown', () => {
-        playNote(parseFloat(key.CDATA_SECTION_NODE.note));
+        playNote(parseFloat(key.dataset.note));
+        key.classList.add('active');
     });
+
+    key.addEventListener('mouseup', () => {
+        key.classList.remove('active');
+    });
+
+    key.addEventListener('mouseleave', () => {
+        key.classList.remove('active');
+    })
 });
 
 document.addEventListener('keydown', (e) => {
