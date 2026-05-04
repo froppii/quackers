@@ -24,27 +24,93 @@ h1 {
 }
 
 #grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.staff {
+    position: relative;
+    width: calc(10 * 48px);
+    height: 160px;
     display: grid;
-    grid-template-columns: repeat(8, 40px);
-    gap: 5px;
-    justify-content: center;
-    margin: 20px;
+    grid-template-columns: repeat(10, 48px);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.staff::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 20px;
+    height: 80px;
+    background:
+        linear-gradient(#000, #000) 0 0 / 100% 2px no-repeat,
+        linear-gradient(#000, #000) 0 20px / 100% 2px no-repeat,
+        linear-gradient(#000, #000) 0 40px / 100% 2px no-repeat,
+        linear-gradient(#000, #000) 0 60px / 100% 2px no-repeat,
+        linear-gradient(#000, #000) 0 80px / 100% 2px no-repeat; 
+}
+
+.staff::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    bottom: 60px;
+    width: 2px;
+    background: #333;
+    left: calc(4 * 48);
+    pointer-events: none;
 }
 
 .cell {
-    width: 40px;
-    height: 40px;
-    background: var(--bg);
-    border-radius: 10px;
+    width: 48px;
+    height: 53px;
+    position: relative;
+    user-select: none;
     cursor: pointer;
 }
 
-.cell.active {
-    background: var(--accent);
+.cell::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 11px;
+    background: black;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%) rotate(-20deg);
+    opacity: 0;
+    transition: opacity 0.05;
+    pointer-events: none;
 }
 
-.playing {
-    outline: 3px solid var(--accent2);
+.cell.active::after {
+    opacity: 1;
+}
+
+
+.staff:nth-child(1) .cell[data-row="0"]::after { top: 14px; }
+.staff:nth-child(1) .cell[data-row="1"]::after { top: 20px; }
+.staff:nth-child(1) .cell[data-row="2"]::after { top: 20px; }
+
+.staff:nth-child(2) .cell[data-row="3"]::after { top: 14px; }
+.staff:nth-child(2) .cell[data-row="4"]::after { top: 20px; }
+.staff:nth-child(2) .cell[data-row="5"]::after { top: 20px; }
+
+.cell.playing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(232, 50, 26, 0.10);
+    pointer-events: none;
+}
+
+#keyboard {
+    margin-top: 10px;
 }
 
 .piano {
@@ -60,14 +126,20 @@ h1 {
 
 .white {
     width: 50px;
-    height: 220px;
+    height: 200px;
     background: white;
     border: 4px solid black;
-    border-radius: 0 0 6px 6px;
+    border-radius: 0 0 8px 8px;
     margin-right: -4px;
     z-index: 1;
     position: relative;
     transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.white.active {
+    transform: translateY(4px);
+    background: #aaaaaa;
 }
 
 .key-group:first-child .white {
@@ -80,28 +152,29 @@ h1 {
     border-bottom-right-radius: 12px;
 }
 
-.white.active {
-    transform: translateY(4px);
-    background: #aaaaaa;
-}
-
 .black {
     position: absolute;
     width: 32px;
-    height: 130px;
+    height: 125px;
     border-radius: 0 0 6px 6px;
-    background: black;
+    background: #111;
     z-index: 2;
     top: 0;
     transition: all 0.1s ease;
     right: -18px;
+    cursor: pointer;
 }
 
 .black.active {
-    background: #666;
+    background: #555;
 }
 
 .key:hover {
-    filter: brightness(1.05);
-    cursor: pointer;
+    filter: brightness(1.08);
+}
+
+p.hint {
+    color: #a0a09a;
+    font-size: 0.75rem;
+    margin-top: 8px;
 }

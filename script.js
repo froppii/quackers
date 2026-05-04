@@ -1,52 +1,97 @@
-const rows = 5;
-const cols = 8;
+const rows = 6;
+const cols = 10;
 const grid = document.getElementById('grid');
 
 let cells = [];
 let currentStep = 0;
 let isPlaying = false;
+let loopTimer = null;
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
-const notes = [261.63, 293.66, 329.63, 392.00, 440.00];
-const keys = document.querySelectorAll('.key');
+const notes = [659.25, 622.25, 587.33, 523.25, 493.88, 440.00];
+
+const staff1 = document.createElement('div');
+staff1.classList.add('staff');
+
+const staff2 = document.createElement('div');
+staff2.classList.add('staff');
+
+grid.appendChild(staff1);
+grid.appendChild(staff2);
 
 for (let r = 0; r < rows; r++) {
     cells[r] = [];
+    const localRow = r % 3;
+
     for (let c = 0; c < cols; c++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+        cell.dataset.localRow = localRow;
 
-        cell.addEventListener('click', () => {
-            cell.classList.toggle('active');
+        cell.addEventListener('mousedown', () => {
+            audioCtx.resume();
+            if(cell.classList.contains('active')) {
+                cell.classList.remove('active');
+            } else {
+                cell.classList.add('active');
+                playNote(notes[r]);
+            }
         });
 
-        grid.appendChild(cell);
+        if (r < 3) {
+            staff1.appendChild(cell);
+        } else {
+            staff2.appendChild(cell);
+        }
+
         cells[r][c] = cell;
     }
 }
 
-function playNote(freq) {
+function playNote(freq, duration = 0.18) {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
 
-    osc.type = 'triangle';
+    osc.type = 'square';
     osc.frequency.value = freq;
 
-    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.5);
+    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
 
     osc.connect(gain);
     gain.connect(audioCtx.destination);
 
     osc.start();
-    osc.stop(audioCtx.currentTime + 0.2);
+    osc.stop(audioCtx.currentTime + duration);
+}
+
+function loop() {
+    if (!isPlaying) return;
+
+    document.querySelectorAll('.cell.playing').forEach(c => c.classList.remove('playing'));
+
+    for (let r = 0; r < rows; r++) {
+        const cell = cells[r][currentStep];
+        cell.classList.add('playing');
+
+        if (cell.classList.contains('active')) {
+            playNote(notes[r]);
+        }
+    }
+
+    currentStep = (currentStep + 1) % cols;
+    loopTimer = setTimeout(loop, 280);
 }
 
 keys.forEach(key => {
-    key.addEventListener('mousedown', () => {
-        playNote(parseFloat(key.dataset.note));
+    key.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        audioCtx.resume();
+        playNote(parseFloat(key.dataset.note), 0.5);
         key.classList.add('active');
     });
 
@@ -60,50 +105,17 @@ keys.forEach(key => {
 });
 
 document.addEventListener('keydown', (e) => {
-    const key = document.querySelector(`[data-key='${e.key}']`)
-    if (key) {
-        playNote(parseFloat(key.dataset.note));
-        key.classList.add('active');
-    }
-});
+    if (e.code === 'Space') {
+        e.preventDefault();
+        isPlaying = !isPlaying;
 
-document.addEventListener('keyup', (e) => {
-    const key = document.querySelector(`[data-key='${e.key}']`);
-    if (key) key.classList.remove('active');
-});
-
-function loop() {
-    if (!isPlaying) return;
-
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-            cells[r][c].classList.remove('playing');
+        if (isPlaying) {
+            audioCtx.resume();
+            currentStep = 0;
+            loop();
+        } else {
+            clearTimeout(loopTimer);
+            document.querySelectorAll('.cell.playing').forEach(c => c.classList.remove('playing'));
         }
     }
-
-    for (let r = 0; r < rows; r++) {
-        if (cells[r][currentStep].classList.contains('active')) {
-            cells[r][currentStep].classList.add('playing');
-            playNote(notes[r]);
-        }
-    }
-
-    currentStep = (currentStep + 1) % cols;
-    setTimeout(loop, 300);
-}
-
-document.getElementById('play').onclick = () => {
-    isPlaying = !isPlaying;
-    if (isPlaying) loop();
-};
-
-const keyboard = document.getElementById('keyboard');
-
-notes.forEach(freq => {
-    const key = document.createElement('div');
-    key.classList.add('key');
-
-    key.onclick = () => playNote(freq);
-
-    keyboard.appendChild(key);
 });
