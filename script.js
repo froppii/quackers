@@ -34,12 +34,18 @@ for (let r = 0; r < rows; r++) {
 
         cell.addEventListener('mousedown', () => {
             audioCtx.resume();
-            if(cell.classList.contains('active')) {
-                cell.classList.remove('active');
-            } else {
-                cell.classList.add('active');
-                playNote(notes[r]);
+
+            const isTopStaff = r < 3;
+
+            for (let r2 = 0; r2 < rows; r2++) {
+                const sameStaff = (isTopStaff && r2 < 3) || (!isTopStaff && r2 >= 3);
+                if (sameStaff) {
+                    cells[r2][c].classList.remove('active');
+                }
             }
+
+            cell.classList.add('active');
+            playNote(notes[r], isTopStaff ? 'melody' : 'bass')
         });
 
         if (r < 3) {
@@ -52,14 +58,21 @@ for (let r = 0; r < rows; r++) {
     }
 }
 
-function playNote(freq, duration = 0.18) {
+function playNote(freq, type = 'melody', duration = 0.18) {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
 
-    osc.type = 'square';
+    if (type === 'melody') {
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    } else {
+        osc.type = 'triangle';
+        freq = freq / 2;
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    }
+
     osc.frequency.value = freq;
 
-    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
 
     osc.connect(gain);

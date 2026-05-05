@@ -7,7 +7,53 @@
     <body>
         <h1>quackers</h1>
 
-        <div id="grid"></div>
+        <div class="controls">
+            <button id="play-btn">&#9654;</button>
+            <div class="ctrl-group">
+                <span class="ctrl-label">bpm</span>
+                <input type="range" id="bpm" min="60" max="240" value="123" step="1">
+                <span class="bpm-val" id="bpm-val">120</span>
+            </div>
+            <button id="clear-btn">clear</button>
+        </div>
+
+        <div class="grid-outer">
+            <div class="layer-row">
+                <div class="layer-label">
+                    <span class="layer-name">melody</span>
+                    <span class="layer-sub">bell</span>
+                </div>
+                <div class="staff melody" id="melody-staff">
+                    <div class="staff-lines"></div>
+                    <div class="cell-grid" id="melody-grid"></div>
+                </div>
+            </div>
+
+            <div class="layer-row">
+                <div class="layer-label">
+                    <span class="layer-name">bass</span>
+                    <span class="layer-sub">round</span>
+                </div>
+                <div class="staff bass" id="bass-staff">
+                    <div class="staff-lines"></div>
+                    <div class="cell-grid" id="bass-grid"></div>
+                </div>
+            </div>
+
+            <div class="layer-row">
+                <div class="layer-label">
+                    <span class="layer-name">drums</span>
+                    <span class="layer-sub">noise</span>
+                </div>
+                <div class="staff drums" id="drums-staff">
+                    <div class="cell-grid" id="drums-grid"></div>
+                    <div class="drum-label-col">
+                        <span class="drum-label">HH</span>
+                        <span class="drum-label">KK</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="keyboard">
             <div class="piano">
