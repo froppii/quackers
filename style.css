@@ -42,6 +42,18 @@ h1 {
     letter-spacing: 0.6px;
 }
 
+select {
+    font-family: inherit;
+    font-size: 12px;
+    background: #f5f4f0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    color: #1a1a1a;
+    padding: 4px 8px;
+    cursor: pointer;
+    outline: none;
+}
+
 input[type=range] {
     width: 80px;
     accent-color: #1a1a1a;
@@ -73,7 +85,7 @@ input[type=range] {
 #play-btn.playing { background: #1a1a1a; color: #fff; }
 
 #clear-btn {
-    font-familt: inherit;
+    font-family: inherit;
     font-size: 11px;
     padding: 4px 12px;
     border-radius: 6px;
@@ -84,6 +96,12 @@ input[type=range] {
 }
 
 #clear-btn:hover { background: #f5f4f0; }
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background: #e2e0d8;
+}
 
 .grid-outer {
     width: 100%;
@@ -211,7 +229,6 @@ input[type=range] {
     background: rgba(220, 80, 30, 0.08);
 }
 
-
 .staff:nth-child(1) .cell[data-row="0"]::after { top: 14px; }
 .staff:nth-child(1) .cell[data-row="1"]::after { top: 20px; }
 .staff:nth-child(1) .cell[data-row="2"]::after { top: 20px; }
@@ -290,6 +307,36 @@ input[type=range] {
 
 .key:hover {
     filter: brightness(1.08);
+}
+
+#viz-wrap {
+    width: 100%;
+    max-width: 760px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.viz-label-col {
+    width: 72px;
+    flex-shrink: 0;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.viz-label {
+    font-size: 9px;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+canvas#viz {
+    flex: 1;
+    height: 40px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #e2e0d8;
 }
 
 p.hint {

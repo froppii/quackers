@@ -1,14 +1,33 @@
-const rows = 6;
-const cols = 10;
-const grid = document.getElementById('grid');
-
-let cells = [];
-let currentStep = 0;
-let isPlaying = false;
-let loopTimer = null;
-
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
+
+const analyser = audioCtx.createAnalyser();
+analyser.fftSize = 256;
+analyser.connect(audioCtx.destination);
+const vizBuf = new Uint8Array(analyser.frequencyBinCount);
+
+const vizCanvas = document.getElementById('viz');
+const vizCtx = vizCanvas.getContext('2d');
+
+function drawViz() {
+    requestAnimationFrame(drawViz);
+    const w = vizCanvas.offsetWidth, H = vizCanvas.offsetHeight;
+    if (vizCanvas.width !== W) vizCanvas.width = W;
+    vizCanvas.height = H;
+    analyser.getByteTimeDomainData(vizBuf);
+    vizCtx.clearRect(0,0,W,H);
+    vizCtx.beginPath();
+    vizCtx.strokeStyle = '#1a1a1a';
+    vizCtx.lineWidth = 1.5;
+    const sl = vizBuf.length;
+    for (let i=-; i<sl; i++) {
+        const x = (i/sl)*W;
+        const y = (vizBuf[i]/128)*H/2;
+        i === 0 ? vizCtx.moveTo(x,y) : vizCtx.lineTo(x,y);
+    }
+    vizCtx.stroke();
+}
+drawViz();
 
 const notes = [659.25, 622.25, 587.33, 523.25, 493.88, 440.00];
 

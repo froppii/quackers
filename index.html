@@ -14,7 +14,18 @@
                 <input type="range" id="bpm" min="60" max="240" value="123" step="1">
                 <span class="bpm-val" id="bpm-val">120</span>
             </div>
+
+            <div class="divider"></div>
+
+            <div class="ctrl-group">
+                
+            </div>
             <button id="clear-btn">clear</button>
+        </div>
+
+        <div class="step-indicator-wrap">
+            <div class="step-indicator-spacer"></div>
+            <div class="step-dots" id="step-dots"></div>
         </div>
 
         <div class="grid-outer">
@@ -53,6 +64,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="viz-wrap" id="viz-wrap">
+            <div class="vis-label-col">
+                <span class="vis-label">output</span>
+            </div>
+            <canvas id="viz"></canvas>
         </div>
 
         <div id="keyboard">
