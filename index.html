@@ -11,16 +11,44 @@
             <button id="play-btn">&#9654;</button>
             <div class="ctrl-group">
                 <span class="ctrl-label">bpm</span>
-                <input type="range" id="bpm" min="60" max="240" value="123" step="1">
+                <input type="range" id="bpm" min="60" max="240" value="120" step="1">
                 <span class="bpm-val" id="bpm-val">120</span>
             </div>
 
             <div class="divider"></div>
 
             <div class="ctrl-group">
-                
+                <span class="ctrl-label">scale</span>
+                <select id="scale-sel">
+                    <option value="major">major</option>
+                    <option value="minor">minor</option>
+                    <option value="pentatonic">pentatonic</option>
+                    <option value="dorian">dorian</option>
+                    <option value="chromatic">chromatic</option>
+                </select>
             </div>
+
+            <div class="ctrl-group">
+                <span class="ctrl-label">key</span>
+                <select id="key-sel">
+                    <option value="60">C</option>
+                    <option value="61">C#</option>
+                    <option value="62">D</option>
+                    <option value="63">Eb</option>
+                    <option value="64">E</option>
+                    <option value="65">F</option>
+                    <option value="66">F#</option>
+                    <option value="67">G</option>
+                    <option value="68">Ab</option>
+                    <option value="69">A</option>
+                    <option value="70">Bb</option>
+                    <option value="71">B</option>
+                </select>
+            </div>
+
             <button id="clear-btn">clear</button>
+            <button id="piano-toggle-btn">piano</button>
+            <button id="share-btn">share</button>
         </div>
 
         <div class="step-indicator-wrap">
@@ -35,7 +63,6 @@
                     <span class="layer-sub">bell</span>
                 </div>
                 <div class="staff melody" id="melody-staff">
-                    <div class="staff-lines"></div>
                     <div class="cell-grid" id="melody-grid"></div>
                 </div>
             </div>
@@ -46,7 +73,6 @@
                     <span class="layer-sub">round</span>
                 </div>
                 <div class="staff bass" id="bass-staff">
-                    <div class="staff-lines"></div>
                     <div class="cell-grid" id="bass-grid"></div>
                 </div>
             </div>
@@ -67,61 +93,18 @@
         </div>
 
         <div class="viz-wrap" id="viz-wrap">
-            <div class="vis-label-col">
-                <span class="vis-label">output</span>
+            <div class="viz-label-col">
+                <span class="viz-label">output</span>
             </div>
             <canvas id="viz"></canvas>
         </div>
 
-        <div id="keyboard">
-            <div class="piano">
-                <div class="key-group">
-                    <div class="key white" data-note="261.63"></div>
-                    <div class="key black" data-note="277.18"></div>
-                </div>
-
-                <div class="key-group">
-                    <div class="key white" data-note="293.66"></div>
-                    <div class="key black" data-note="311.13"></div>
-                </div>
-
-                <div class="key-group">
-                    <div class="key white" data-note="329.63"></div>
-                </div>
-
-                <div class="key-group">
-                    <div class="key white" data-note="349.23"></div>
-                    <div class="key black" data-note="369.99"></div>
-                </div>
-
-                <div class="key-group">
-                    <div class="key white" data-note="392.00"></div>
-                    <div class="key black" data-note="415.30"></div>
-                </div>
-
-                <div class="key-group">
-                    <div class="key white" data-note="440.00"></div>
-                    <div class="key black" data-note="466.16"></div>
-                </div>
-
-                <div class="key-group">
-                    <div class="key white" data-note="493.88"></div>
-                </div>
-
-                <div class="key-group">
-                    <div class="key white" data-note="523.25"></div>
-                    <div class="key black" data-note="554.37"></div>
-                </div>
-
-                <div class="key-group">
-                    <div class="key white" data-note="587.33"></div>
-                    <div class="key black" data-note="622.25"></div>
-                </div>
-
-                <div class="key-group">
-                    <div class="key white" data-note="659.25"></div>
-                </div>
+        <div id="piano-popup">
+            <div class="piano-popup-header">
+                <span class="piano-popup-label">piano</span>
+                <button class="piano-close" id="piano-close">&#10005;</button>
             </div>
+            <div class="piano" id="piano"></div>
         </div>
         
         <script src="script.js"></script>
